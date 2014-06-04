@@ -11,5 +11,5 @@ Swift 学习笔记～ FlappyBird  -- 挺好玩的哈
 
 # Author
 
-- Based on code by [janblus](http://qilei.org)
+- code by [janblus](http://qilei.org)
 

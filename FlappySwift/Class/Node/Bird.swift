@@ -8,11 +8,8 @@ import SpriteKit
 class Bird: SKNode {
     
     var bird : SKSpriteNode!
-    
     var start_flag : Bool?
-    
     var time_d : CFTimeInterval!
-    
     let rect : CGRect!
     
     init( rect: CGRect ){
@@ -42,14 +39,16 @@ class Bird: SKNode {
             SKTexture(imageNamed: "bird-2"),
             SKTexture(imageNamed: "bird-3"),
         ]
-        let action = SKAction.repeatActionForever(SKAction.animateWithTextures(img_frames, timePerFrame: 0.1))
         
-        bird.runAction(action, withKey: "move")
+        let action = SKAction.animateWithTextures(img_frames, timePerFrame: 0.1)
+        let repeat = SKAction.repeatActionForever(action)
+        
+        bird.runAction(repeat, withKey: "move")
 
     }
     
     func start(){
-        
+        self.move()
         bird.physicsBody.dynamic = true
     }
     
@@ -68,7 +67,6 @@ class Bird: SKNode {
     
     func update( time: CFTimeInterval ) {
         if start_flag == true {
-            println("update bird ")
             check_bird()
         }
     }
@@ -95,26 +93,25 @@ class Bird: SKNode {
         
         if dy > 30.0 {
             bird.zRotation = 0.6
-        } else if dy < -100.0 {
+        } else if dy < -200.0 {
             if dy < -600 {
                 dy = -600
             }
             
-            bird.zRotation = 1.52 * (dy + 100) * 0.002
+            bird.zRotation = 1.52 * (dy + 200) * 0.0025
         } else {
             bird.zRotation = 0.0
         }
         
-        let h = -self.rect.height / 2 + 140
-        
-        
+        let btm : CGFloat = -150
+        let top = self.rect.height / 2
         let p = bird.position.y
         
-        println(p)
-        
-        if p < h {
-            bird.position = CGPointMake(0, h)
+        if p < btm {
+            bird.position = CGPointMake(0, btm)
             self.dead()
+        }else if p > top {
+            bird.position = CGPointMake(0, top)
         }
         
     }

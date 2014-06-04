@@ -19,8 +19,10 @@ class GameScene: SKScene {
         
         let rect = self.view.frame
         
-        self.size = rect.size
+        // why scene size (1024.0,768.0) bug ?
+        println(self.size)
         
+        self.size = rect.size
         
         let pos = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect))
         
@@ -29,7 +31,7 @@ class GameScene: SKScene {
         
         let bird  = Bird(rect:rect)
             bird.position  = pos
-            bird.zPosition = 10
+            bird.zPosition = 2
         
         self.addChild(world)
         self.addChild(bird)
