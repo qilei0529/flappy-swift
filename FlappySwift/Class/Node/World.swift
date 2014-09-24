@@ -12,7 +12,6 @@ class World: SKSpriteNode {
     var box_left : CGFloat?
     
     init( rect: CGRect ){
-        
         println("world init")
         
 //        let color = UIColor(red: 112/255, green: 197/255, blue: 206/255, alpha: 1)
@@ -28,9 +27,13 @@ class World: SKSpriteNode {
         
         self.rect = rect
         self.init_root()
+        
     }
     
-    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func init_root () {
         
         let root = SKNode()
@@ -45,7 +48,7 @@ class World: SKSpriteNode {
         
         let h = -d.height / 2
         
-        for i in 0...20 {
+        for i in 0...30 {
             let box = SKSpriteNode(texture: texture)
             
             box_left = box_left! + d.width
@@ -67,7 +70,7 @@ class World: SKSpriteNode {
         
         call()
         
-        let move  = SKAction.moveBy(CGVectorMake(-d.width , 0), duration: 0.3)
+        let move  = SKAction.moveBy(CGVectorMake(-200 , 0), duration: 4)
         let reset = SKAction.runBlock(call)
         let seq   = SKAction.sequence([move, reset])
         let repeat = SKAction.repeatActionForever(seq)

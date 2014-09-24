@@ -5,12 +5,17 @@
 
 import SpriteKit
 
+protocol BirdProtocol {
+    func birdDead()
+}
+
 class Bird: SKNode {
     
     var bird : SKSpriteNode!
     var start_flag : Bool?
     var time_d : CFTimeInterval!
     let rect : CGRect!
+    var delegate : BirdProtocol?
     
     init( rect: CGRect ){
         super.init()
@@ -26,11 +31,16 @@ class Bird: SKNode {
         self.bird = bird
         
         bird.physicsBody = SKPhysicsBody( rectangleOfSize:bird.size )
-        bird.physicsBody.dynamic = false
+        bird.physicsBody?.dynamic = false
+        
         
         start_flag = false
         self.reset()
         self.move()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func move(){
@@ -49,7 +59,7 @@ class Bird: SKNode {
     
     func start(){
         self.move()
-        bird.physicsBody.dynamic = true
+        bird.physicsBody?.dynamic = true
     }
     
     func flap() {
@@ -60,8 +70,9 @@ class Bird: SKNode {
             start_flag = true
         }
         
-        bird.physicsBody.velocity = CGVectorMake(0, 0)
-        bird.physicsBody.applyImpulse(CGVectorMake(0, 40))
+        bird.physicsBody?.velocity = CGVectorMake(0, 0)
+//        bird.physicsBody.linearDamping = 0.5 // set damping
+        bird.physicsBody?.applyImpulse(CGVectorMake(0, 40))
         
     }
     
@@ -78,28 +89,34 @@ class Bird: SKNode {
     
     func dead() {
         self.start_flag = false
-        bird.physicsBody.velocity = CGVectorMake(0, 0)
-        bird.physicsBody.dynamic = false
+        bird.physicsBody?.velocity = CGVectorMake(0, 0)
+        bird.physicsBody?.dynamic = false
         bird.removeActionForKey("move")
         
         bird.zRotation = -1.57
         
         println("stop")
+        
+        delegate?.birdDead()
     }
     
     func check_bird() {
         
-        var dy = bird.physicsBody.velocity.dy
+        var dy = bird.physicsBody?.velocity.dy
         
-        if dy > 30.0 {
-            bird.zRotation = 0.6
-        } else if dy < -200.0 {
+        if dy < -200.0 {
             if dy < -600 {
                 dy = -600
             }
+            bird.zRotation = 1.52 * (dy! + 200) * 0.0025
             
-            bird.zRotation = 1.52 * (dy + 200) * 0.0025
-        } else {
+        }else if dy > -100 {
+            if dy > 100{
+                dy = 100;
+            }
+            bird.zRotation = 0.6 * (dy! + 100) * 0.005
+            
+        }else {
             bird.zRotation = 0.0
         }
         
