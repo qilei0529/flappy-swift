@@ -14,7 +14,6 @@ class World: SKSpriteNode {
     init( rect: CGRect ){
         println("world init")
         
-//        let color = UIColor(red: 112/255, green: 197/255, blue: 206/255, alpha: 1)
         let color = UIColor(red: 222/255, green: 216/255, blue: 149/255, alpha: 1)
     
         super.init(texture: nil, color: color, size: rect.size )

@@ -10,27 +10,24 @@ class GameScene: SKScene , BirdProtocol {
     var bird : Bird!
     var world : World!
     
-    var time    : CFTimeInterval! = 0
-    var time_d  : CFTimeInterval! = 0
-    var time_p  : CFTimeInterval! = 0
+    var time    : CFTimeInterval = 0
+    var time_d  : CFTimeInterval = 0
+    var time_p  : CFTimeInterval = 0
     
     var rect : CGRect!
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
-        let rect = self.rect
-        
-        // why scene size (1024.0,768.0) bug ?
-        println(self.size)
-        
-        self.size = rect.size
+        println(rect)
+
+//        self.size = rect.size  // can not set scene size ?
         
         let pos = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect))
-        
+
         let world = World(rect:rect)
             world.position = pos
-        
+
         let bird  = Bird(rect:rect)
             bird.position  = pos
             bird.zPosition = 2
